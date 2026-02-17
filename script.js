@@ -1,4 +1,7 @@
 const cells = document.querySelectorAll(".cell");
+const statusText = document.getElementById("status");
+const restartBtn = document.getElementById("restart");
+
 let currentPlayer = "X";
 let gameActive = true;
 
@@ -13,9 +16,13 @@ const winningCombinations = [
     [2,4,6]
 ];
 
+statusText.textContent = "Player X's turn";
+
 cells.forEach((cell, index) => {
     cell.addEventListener("click", () => handleCellClick(cell, index));
 });
+
+restartBtn.addEventListener("click", restartGame);
 
 function handleCellClick(cell, index) {
     if (!gameActive || cell.textContent !== "") return;
@@ -23,18 +30,19 @@ function handleCellClick(cell, index) {
     cell.textContent = currentPlayer;
 
     if (checkWinner()) {
-        alert(currentPlayer + " wins!");
+        statusText.textContent = currentPlayer + " wins!";
         gameActive = false;
         return;
     }
 
     if (isDraw()) {
-        alert("It's a draw!");
+        statusText.textContent = "It's a draw!";
         gameActive = false;
         return;
     }
 
     currentPlayer = currentPlayer === "X" ? "O" : "X";
+    statusText.textContent = "Player " + currentPlayer + "'s turn";
 }
 
 function checkWinner() {
@@ -50,4 +58,11 @@ function checkWinner() {
 
 function isDraw() {
     return [...cells].every(cell => cell.textContent !== "");
+}
+
+function restartGame() {
+    cells.forEach(cell => cell.textContent = "");
+    currentPlayer = "X";
+    gameActive = true;
+    statusText.textContent = "Player X's turn";
 }
