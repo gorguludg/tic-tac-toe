@@ -6,7 +6,7 @@ const oScoreDisplay = document.getElementById("o-score");
 
 let xScore = 0;
 let oScore = 0;
-
+let vsComputer = true;
 let currentPlayer = "X";
 let gameActive = true;
 
@@ -57,6 +57,10 @@ function handleCellClick(cell, index) {
 
     currentPlayer = currentPlayer === "X" ? "O" : "X";
     statusText.textContent = "Player " + currentPlayer + "'s turn";
+
+    if (vsComputer && currentPlayer === "O" && gameActive) {
+        setTimeout(computerMove, 500);
+    }
 }
 
 function checkWinner() {
@@ -89,4 +93,19 @@ function restartGame() {
     currentPlayer = "X";
     gameActive = true;
     statusText.textContent = "Player X's turn";
+}
+
+function computerMove() {
+    let emptyCells = [];
+
+    cells.forEach((cell, index) => {
+        if (cell.textContent === "") {
+            emptyCells.push(index);
+        }
+    });
+
+    if (emptyCells.length === 0) return;
+
+    let randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+    cells[randomIndex].click();
 }
