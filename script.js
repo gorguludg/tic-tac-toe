@@ -46,14 +46,21 @@ function handleCellClick(cell, index) {
 }
 
 function checkWinner() {
-    return winningCombinations.some(combination => {
+    for (let combination of winningCombinations) {
         const [a, b, c] = combination;
-        return (
+
+        if (
             cells[a].textContent &&
             cells[a].textContent === cells[b].textContent &&
             cells[a].textContent === cells[c].textContent
-        );
-    });
+        ) {
+            cells[a].classList.add("win");
+            cells[b].classList.add("win");
+            cells[c].classList.add("win");
+            return true;
+        }
+    }
+    return false;
 }
 
 function isDraw() {
@@ -61,7 +68,10 @@ function isDraw() {
 }
 
 function restartGame() {
-    cells.forEach(cell => cell.textContent = "");
+    cells.forEach(cell => {
+        cell.textContent = "";
+        cell.classList.remove("win");
+    });
     currentPlayer = "X";
     gameActive = true;
     statusText.textContent = "Player X's turn";
