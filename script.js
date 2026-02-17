@@ -86,11 +86,6 @@ chooseOBtn.addEventListener("click", () => {
 
     resetScores();
     restartGame();
-
-    if (vsComputer) {
-        currentPlayer = computerSymbol;
-        setTimeout(computerMove, 500);
-    }
 });
 
 /* =====================
@@ -107,6 +102,8 @@ function handleCellClick(cell, index) {
     if (!gameActive || cell.textContent !== "") return;
 
     cell.textContent = currentPlayer;
+    cell.classList.remove("filled"); // reset if needed
+    void cell.offsetWidth;           // force reflow
     cell.classList.add("filled");
 
     if (checkWinner()) {
@@ -170,6 +167,13 @@ function restartGame() {
     currentPlayer = playerSymbol;
     gameActive = true;
     statusText.textContent = "Player " + currentPlayer + "'s turn";
+
+    // If computer should start
+    if (vsComputer && playerSymbol === "O") {
+        currentPlayer = computerSymbol;
+        statusText.textContent = "Player " + currentPlayer + "'s turn";
+        setTimeout(computerMove, 500);
+    }
 }
 
 /* =====================

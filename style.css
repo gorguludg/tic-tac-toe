@@ -153,18 +153,22 @@ h1 {
     transition: background-color 0.2s ease;
 }
 
-/* Animation */
+/* Ensure GPU acceleration */
 .cell.filled {
-    animation: pop 0.2s ease;
+    animation: pop 0.25s ease;
+    transform-origin: center;
 }
 
 @keyframes pop {
     0% {
-        transform: scale(0.6);
+        transform: scale(0.7);
         opacity: 0;
+    }
+    60% {
+        transform: scale(1.05);
+        opacity: 1;
     }
     100% {
         transform: scale(1);
-        opacity: 1;
     }
 }
