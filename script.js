@@ -96,8 +96,22 @@ function restartGame() {
 }
 
 function computerMove() {
-    let emptyCells = [];
+    // 1. Try to win
+    let move = findBestMove("O");
+    if (move !== null) {
+        cells[move].click();
+        return;
+    }
 
+    // 2. Block player from winning
+    move = findBestMove("X");
+    if (move !== null) {
+        cells[move].click();
+        return;
+    }
+
+    // 3. Otherwise random move
+    let emptyCells = [];
     cells.forEach((cell, index) => {
         if (cell.textContent === "") {
             emptyCells.push(index);
@@ -108,4 +122,25 @@ function computerMove() {
 
     let randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
     cells[randomIndex].click();
+}
+
+function findBestMove(player) {
+    for (let combination of winningCombinations) {
+        const [a, b, c] = combination;
+        const values = [
+            cells[a].textContent,
+            cells[b].textContent,
+            cells[c].textContent
+        ];
+
+        if (
+            values.filter(v => v === player).length === 2 &&
+            values.includes("")
+        ) {
+            if (cells[a].textContent === "") return a;
+            if (cells[b].textContent === "") return b;
+            if (cells[c].textContent === "") return c;
+        }
+    }
+    return null;
 }
