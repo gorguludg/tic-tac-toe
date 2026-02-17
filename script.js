@@ -107,6 +107,7 @@ function handleCellClick(cell, index) {
     if (!gameActive || cell.textContent !== "") return;
 
     cell.textContent = currentPlayer;
+    cell.classList.add("filled");
 
     if (checkWinner()) {
         statusText.textContent = currentPlayer + " wins!";
@@ -163,6 +164,7 @@ function restartGame() {
     cells.forEach(cell => {
         cell.textContent = "";
         cell.classList.remove("win");
+        cell.classList.remove("filled");
     });
 
     currentPlayer = playerSymbol;
